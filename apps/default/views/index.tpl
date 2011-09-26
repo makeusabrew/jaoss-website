@@ -4,7 +4,7 @@
     <h2>What's <abbr title="Just Another Open Source System">JAOSS</abbr>?</h2>
     <p><a href="https://github.com/makeusabrew/jaoss">JAOSS</a> is an open source, object oriented PHP5 library &amp; framework. Whilst
     the library can be used standalone, it is designed to be used as part of the <a href="https://github.com/makeusabrew/jaoss-web-template">JAOSS
-    Web Template</a> framework to enable rapid, robust and testable web application development. The ethos of the project focussses on speed &#8212; of both development
+    Web Template</a> framework to enable rapid, robust and testable web application development. The ethos of the project focusses on speed &#8212; of both development
     and code execution.</p>
 
     <p>Both the library and the framework are &#8212; and always will be &#8212; 100&#37; free and open source, released under the ultra permissive
