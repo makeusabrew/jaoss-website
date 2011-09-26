@@ -5,7 +5,7 @@
         <h2>Oops! That's a {$code}</h2>
     </div>
     {if $code == 404}
-        <p>It looks like the page you're after doesn't exist - sorry about that. The site
+        <p>It looks like the page you're after doesn't exist - sorry about that.
         Try heading to the <a href="/">home page</a> and going from there. If you think this
         page should be here, please <a href="http://paynedigital.com/contact">let us know</a>. Thanks!</p>
     {else}
