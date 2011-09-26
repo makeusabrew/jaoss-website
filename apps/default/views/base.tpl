@@ -11,7 +11,7 @@
         <div class='container'>
             <h1>JAOSS<small>.org</small></h1>
             {*<h2>Just Another Open Source System</h2>*}
-            <h2>Open Source PHP5 Library &amp; Web Application Framework</h2>
+            <h2>An Open Source PHP5 Library &amp; Web Application Framework</h2>
         </div>
     </div>
     <div class='topbar'>
