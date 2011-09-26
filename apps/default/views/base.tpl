@@ -41,6 +41,9 @@
     </div>
     <div id='footer'>
         <div class='well'>
+            <span class='meta'>
+                This site is lovingly tested &amp; deployed by <a href="http://jenkins-ci.org/">Jenkins CI</a>.
+            </span>
             &copy; 2010 - 2011 <a href="http://paynedigital.com">Payne Digital Ltd</a>
         </div>
     </div>

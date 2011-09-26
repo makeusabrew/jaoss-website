@@ -31,3 +31,7 @@ h2 abbr {
 .container {
     margin-bottom:2em;
 }
+
+.well .meta {
+    float:right;
+}
