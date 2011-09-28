@@ -5,7 +5,7 @@
     <title>{block name='title'}{setting value="site.title"}{/block}</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-1.3.0.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    {include file='helpers/google_analytics.tpl'}
+    {include file='default/views/helpers/google_analytics.tpl'}
 </head>
 <body>
     <div id='header'>
@@ -26,7 +26,7 @@
                     *}
                     <li><a href="https://github.com/makeusabrew/jaoss">The Library</a></li>
                     <li><a href="https://github.com/makeusabrew/jaoss-web-template">The Framework</a></li>
-                    <li><a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/README.md">Documentation</a></li>
+                    <li><a href="/docs">Documentation</a></li>
                 </ul>
                 {*
                 <form action="/search" method="get">

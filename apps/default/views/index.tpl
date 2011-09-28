@@ -33,6 +33,9 @@
             which will always point to the latest stable revision of the <a href="https://github.com/makeusabrew/jaoss">library</a>.
             Assuming <strong>my_new_folder</strong> is under your web server's document root, you should be able to navigate
             to it in your browser and receive the customary <b>Hello world!</b> welcome page.</p>
+
+            <h3>Documentation</h3>
+            <p>Please see the <a href="/docs">Documentation</a> section for further setup &amp; usage instructions.</p>
         </div>
         <div class='span4'>
             <h3>Author Information</h3>
