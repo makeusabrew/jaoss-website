@@ -3,7 +3,7 @@
 {block name="body"}
     <div class='row'>
         <div class='span12'>
-            <h2>What's <abbr title="Just Another Open Source System">JAOSS</abbr>?</h2>
+            <h2>What's JAOSS?</h2>
             <p><a href="https://github.com/makeusabrew/jaoss">JAOSS</a> is an open source, object oriented PHP5 library &amp; framework. Whilst
             the library can be used standalone, it is designed to be used as part of the <a href="https://github.com/makeusabrew/jaoss-web-template">JAOSS
             Web Template</a> framework to enable rapid, robust and testable web application development. The ethos of the project focusses on speed &#8212; of both development
@@ -16,9 +16,21 @@
             <p>JAOSS once tenuously stood for Just Another Open Source System, but to be honest &#8216;System&#8217;
             really meant &#8216;PHP framework&#8217; anyway, so now it doesn't really stand for anything at all.</p>
 
-
             <p>For what it's worth, <a href="http://github.com/makeusabrew/jaoss-website">this site is built</a> on <a href="https://github.com/makeusabrew/jaoss-web-template">the
             framework</a>, though given that it's currently completely static, it really didn't have to be!</p>
+
+            <h3>Quick Install</h3>
+            <ol>
+                <li><code>git clone --recursive git://github.com/makeusabrew/jaoss-web-template.git <strong>my_new_folder</strong></code></li>
+                <li><code>cd my_new_folder</code></li>
+                <li><code>rm -rf .git/</code> (the trailing slash is important - you don't want to remove .gitmodules or .gitignore!)</li>
+                <li><code>git init</code></li>
+                <li><code>git add .</code></li>
+                <li><code>git commit -m "<strong>initial commit</strong>"</code></li>
+            </ol>
+            <p>Completing the above steps will give you a clean <a href="https://github.com/makeusabrew/jaoss-web-template">project template</a>
+            to work with, as well as a <a href="http://book.git-scm.com/5_submodules.html">submodule</a>
+            which will always point to the latest stable revision of the <a href="https://github.com/makeusabrew/jaoss">library</a>.</p>
         </div>
         <div class='span4'>
             <h3>Author Information</h3>
