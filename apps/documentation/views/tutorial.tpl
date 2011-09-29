@@ -4,17 +4,16 @@
     <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 {/block}
 {block name='body'}
-    <div class='page-header'>
-        <h2>Tutorial</h2>
-    </div>
-
-    <ol>
-        <li>Getting Started</li>
-        <li>Project Configuration</li>
-    </ol>
-
     <div class='row'>
         <div class='span12'>
+            <div class='page-header'>
+                <h2>Tutorial</h2>
+            </div>
+
+            <ol>
+                <li>Getting Started</li>
+                <li>Project Configuration</li>
+            </ol>
             <h3>Getting Started</h3>
 
             <p>First things first - you'll need to grab the latest copy of the codebase. Follow
@@ -50,6 +49,13 @@
 
         </div>
         <div class='span4'>
+            <div class='page-header'>
+                <h3>Learning By Example</h3>
+            </div>
+            <p>There are several projects available on Github to learn from. Check out
+            the <a href="https://github.com/makeusabrew/paynedigital.com">Payne Digital</a>
+            source, the basic <a href="https://github.com/makeusabrew/jaoss-web-template">framework template</a> or even
+            <a href="https://github.com/makeusabrew/jaoss-website">this website</a>.</p>
         </div>
     </div>
 {/block}
