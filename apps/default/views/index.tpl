@@ -3,7 +3,9 @@
 {block name="body"}
     <div class='row'>
         <div class='span12'>
-            <h2>What's JAOSS?</h2>
+            <div class='page-header'>
+                <h2>What's JAOSS?</h2>
+            </div>
             <p><a href="https://github.com/makeusabrew/jaoss">JAOSS</a> is an open source, object oriented PHP5 library &amp; framework. Whilst
             the library can be used standalone, it is designed to be used as part of the <a href="https://github.com/makeusabrew/jaoss-web-template">JAOSS
             Web Template</a> framework to enable rapid, robust and testable web application development. The ethos of the project focusses on speed &#8212; of both development
@@ -19,26 +21,15 @@
             <p>For what it's worth, <a href="http://github.com/makeusabrew/jaoss-website">this site is built</a> on <a href="https://github.com/makeusabrew/jaoss-web-template">the
             framework</a>, though given that it's currently completely static, it really didn't have to be!</p>
 
-            <h3>Quick Install</h3>
-            <ol>
-                <li><code>git clone --recursive git://github.com/makeusabrew/jaoss-web-template.git <strong>my_new_folder</strong></code></li>
-                <li><code>cd my_new_folder</code></li>
-                <li><code>rm -rf .git/</code> (the trailing slash is important - you don't want to remove .gitmodules or .gitignore)</li>
-                <li><code>git init</code></li>
-                <li><code>git add .</code></li>
-                <li><code>git commit -m "<strong>initial commit</strong>"</code></li>
-            </ol>
-            <p>Completing the above steps will give you a clean <a href="https://github.com/makeusabrew/jaoss-web-template">project template</a>
-            to work with, as well as a <a href="http://book.git-scm.com/5_submodules.html">submodule</a>
-            which will always point to the latest stable revision of the <a href="https://github.com/makeusabrew/jaoss">library</a>.
-            Assuming <strong>my_new_folder</strong> is under your web server's document root, you should be able to navigate
-            to it in your browser and receive the customary <b>Hello world!</b> welcome page.</p>
+            {include file='documentation/views/partials/quick_install.tpl'}
 
             <h3>Documentation</h3>
             <p>Please see the <a href="/docs">Documentation</a> section for further setup &amp; usage instructions.</p>
         </div>
         <div class='span4'>
-            <h3>Author Information</h3>
+            <div class='page-header'>
+                <h3>Author Information</h3>
+            </div>
             <p>This library &amp; framework are developed and maintained by <a href="http://twitter.com/makeusabrew">Nick Payne</a>,
             a PHP, JavaScript &amp; Mobile Application developer who currently runs <a href="http://paynedigital.com">Payne Digital</a>,
             a software development &amp; consultancy firm.</p>
