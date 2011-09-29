@@ -7,16 +7,47 @@
     <div class='page-header'>
         <h2>Tutorial</h2>
     </div>
+
     <ol>
         <li>Getting Started</li>
+        <li>Project Configuration</li>
     </ol>
+
     <div class='row'>
         <div class='span12'>
             <h3>Getting Started</h3>
 
             <p>First things first - you'll need to grab the latest copy of the codebase. Follow
-            the <a href="/#quickinstall" rel='quickinstall'>quick install</a> instructions on the
-            to clone the framework &amp; the library.</p>
+            the <a href="/#quickinstall" rel='quickinstall'>quick install</a> instructions to 
+            clone the framework &amp; the library.</p>
+
+            <h3>Project Configuration</h3>
+
+            <p>When developing a site you'll want to ensure you're in either <b>build</b> or
+            <b>test</b> mode, both of which will enable developer friendly error
+            messages and debug-level logging. The recommended way of doing this is to
+            set up an Apache Virtualhost to house your newly created project:</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+	ServerName jaoss-website.build
+	ServerAlias jaoss-website.test
+	SetEnvIf Host jaoss-website.build PROJECT_MODE=build
+	SetEnvIf Host jaoss-website.test PROJECT_MODE=test
+
+	DocumentRoot /var/www/jaoss-website/public
+
+    &lt;Directory /var/www/jaoss-website/public&gt;
+        DirectoryIndex index.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+            
+            <p>If you're using made up domains as in the example above, don't forget to
+            add them to your <code>/etc/hosts</code> file and make sure the IP points
+            to your webserver (127.0.0.1 if you're working locally).</p>
+
         </div>
         <div class='span4'>
         </div>
@@ -30,6 +61,7 @@
             $("a[rel='quickinstall']").fancybox({
                 "href"  : "/?quickinstall",
                 "width" : 680,
+                "height" : 270,
                 "autoDimensions" : false
             });
         });
