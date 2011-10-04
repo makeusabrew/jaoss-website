@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 {/block}
 {block name='body'}
+    {include file='partials/warning_incomplete.tpl'}
     <div class='row'>
         <div class='span12'>
             <div class='page-header'>
@@ -11,29 +12,64 @@
             </div>
 
             <ol>
-                <li>Getting Started</li>
-                <li>Project Configuration</li>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#project-configuration">Project Configuration</a>
+                    <ol>
+                        <li><a href="#virtualhost-setup">VirtualHost Setup</a></li>
+                        <li><a href="#subfolder-setuo">Subfolder Setup</a></li>
+                        <li><a href="#directory-permissions">Directory Permissions</a></li>
+                    </ol>
+                </li>
+                <li>Project Modes</li>
+                <li>Settings</li>
+                <li>Creating an app
+                    <ol>
+                        <li>Routes</li>
+                        <li>Actions</li>
+                        <li>Views</li>
+                    </ol>
+                </li>
+                <li>A more advanced app
+                    <ol>
+                        <li>Models</li>
+                        <li>Dynamic route parameters</li>
+                    </ol>
+                </li>
+                <li>Sessions</li>
+                <li>Cookies</li>
+                <li>Testing
+                    <ol>
+                        <li>Test fixtures</li>
+                        <li>Headless browser testing</li>
+                        <li>Selenium testing</li>
+                    </ol>
+                </li>
+                <li>Caching</li>
+                <li>Logging</li>
+                <li>CLI Tools</li>
             </ol>
-            <h3>Getting Started</h3>
+            <h3 id='getting-started'>Getting Started</h3>
 
             <p>First things first - you'll need to grab the latest copy of the codebase. Follow
             the <a href="/#quickinstall" rel='quickinstall'>quick install</a> instructions to 
             clone the framework &amp; the library.</p>
 
-            <h3>Project Configuration</h3>
+            <h3 id='project-configuration'>Project Configuration</h3>
 
             <p>When developing a site you'll want to ensure you're in either <b>build</b> or
             <b>test</b> mode, both of which will enable developer friendly error
             messages and debug-level logging. The recommended way of doing this is to
-            set up an Apache Virtualhost to house your newly created project:</p>
+            set up an Apache Virtualhost to house your newly created project.</p>
 
-<pre><code>&lt;VirtualHost *:80&gt;
-	ServerName jaoss-website.build
-	ServerAlias jaoss-website.test
-	SetEnvIf Host jaoss-website.build PROJECT_MODE=build
-	SetEnvIf Host jaoss-website.test PROJECT_MODE=test
+            <h4 id='virtualhost-setup'>VirtualHost Setup</h4>
 
-	DocumentRoot /var/www/jaoss-website/public
+<pre>&lt;VirtualHost *:80&gt;
+    ServerName jaoss-website.build
+    ServerAlias jaoss-website.test
+    SetEnvIf Host jaoss-website.build PROJECT_MODE=build
+    SetEnvIf Host jaoss-website.test PROJECT_MODE=test
+
+    DocumentRoot /var/www/jaoss-website/public
 
     &lt;Directory /var/www/jaoss-website/public&gt;
         DirectoryIndex index.php
@@ -41,11 +77,74 @@
         Order allow,deny
         Allow from all
     &lt;/Directory&gt;
-&lt;/VirtualHost&gt;</code></pre>
+&lt;/VirtualHost&gt;</pre>
             
             <p>If you're using made up domains as in the example above, don't forget to
             add them to your <code>/etc/hosts</code> file and make sure the IP points
             to your webserver (127.0.0.1 if you're working locally).</p>
+
+            <h4 id='subfolder-setup'>Subfolder Setup</h4>
+
+            <p>If you can't be bothered to set up a VirtualHost, or you really want to run
+            your project as a subfolder (say, on a Wordpress installation), then you'll have
+            to add a <code>SetEnv</code> directive to the root folder's .htaccess file (<strong>not</strong>
+            the one in the public folder). Just
+            make sure you remove it when you deploy to a demo / live environment - the default
+            mode if no environment variable is defined is live:</p>
+
+<pre># this will only ever kick in if the preferred VirtualHost set up hasn't been followed
+# and the codebase is just being accessed directly in a subfolder. It's here as backup.
+RewriteEngine On
+RewriteRule ^(.*)$ public/$1 [L]
+SetEnv PROJECT_MODE build
+</pre>
+            <p>Note that this approach has some big drawbacks in that the .htaccess file is version
+            controlled, and it does now allow simultaneously running multiple modes. Unless you <em>need</em>
+            the project to be a subfolder, the VirtualHost route is strongly recommended.</p>
+
+            <h4 id='directory-permissions'>Directory Permissions</h4>
+
+            <p>Your web user will need to be able to write to log/ and tmp/ (both relative to the project root).
+            If you're set up in build mode when you first run your project with any luck you should get some nice
+            developer friendly errors if either directory can't be written to, but if not then try making them
+            writable and trying again. Once these are set up be sure to keep an eye on the logs in the log directory - it's
+            recommended to always have a terminal open running <code>tail -f log/debug.log</code>.</p>
+
+            <h3 id='project-modes'>Project Modes</h3>
+
+            <p>There are five supported project modes, each of which inherits any <a href="#settings">settings</a> from
+            the mode loaded before it - though these settings can be overridden at each level. The modes are as follows:</p>
+
+            <ol>
+                <li>live</li>
+                <li>demo</li>
+                <li>build</li>
+                <li>test</li>
+                <li><abbr title="Continuous Integration">ci</a></li>
+            </ol>
+
+            <p>The mode your application is running in depends on the <code>PROJECT_MODE</code> environment variable set -
+            see the earlier <a href="#project-configuration">Project Configuration</a> section for details on how to
+            configure this.</p>
+
+            <h3 id='settings'>Settings</h3>
+
+            <p>On its own, <code>PROJECT_MODE</code> doesn't really mean a lot. Its core purpose is to control which
+            of the <code>settings/*.ini</code> files are loaded. Settings are loaded in the order noted above up to and including
+            the ini file matching the current mode. Therefore if your <code>PROJECT_MODE</code> is set to <code>build</code>,
+            the framework will attempt to load (in order):</p>
+
+            <ol>
+                <li>settings/live.ini</li>
+                <li>settings/demo.ini</li>
+                <li>settings/build.ini</li>
+            </ol>
+
+            <p>Consequently, if your <code>PROJECT_MODE</code> was <code>test</code>, settings/test.ini would be loaded as well, whereas
+            if the mode was <code>live</code> then only the settings/live.ini would be loaded.</p>
+            
+            <p>As noted earlier, settings cascade down through each mode such that those declared in the last loaded ini file
+            will take precedence over any which have previously been loaded.</p>
 
         </div>
         <div class='span4'>
