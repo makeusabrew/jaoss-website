@@ -20,9 +20,9 @@
                         <li><a href="#directory-permissions">Directory Permissions</a></li>
                     </ol>
                 </li>
-                <li>Project Modes</li>
-                <li>Settings</li>
-                <li>Creating an app
+                <li><a href="#project-modes">Project Modes</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#creating-an-app">Creating an app</a>
                     <ol>
                         <li>Routes</li>
                         <li>Actions</li>
@@ -141,10 +141,53 @@ SetEnv PROJECT_MODE build
             </ol>
 
             <p>Consequently, if your <code>PROJECT_MODE</code> was <code>test</code>, settings/test.ini would be loaded as well, whereas
-            if the mode was <code>live</code> then only the settings/live.ini would be loaded.</p>
+            if the mode was <code>live</code> then only settings/live.ini would be loaded.</p>
             
             <p>As noted earlier, settings cascade down through each mode such that those declared in the last loaded ini file
-            will take precedence over any which have previously been loaded.</p>
+            will take precedence over any which have previously been loaded. This allows the bulk of the settings to be
+            declared in settings/live.ini and refined at each level as required.</p>
+
+            <h3 id='creating-an-app'>Creating an app</h3>
+
+            <p>Once you've got a project set up you're ready to dive in - and where better than creating an app of your own? Before
+            we do this, let's define exactly what we mean by an 'app' in the context of a jaoss project.</p>
+
+            <blockquote>
+                <p>An app is a collection of one or more controllers, views, and / or models relating to one subject.</p>
+            </blockquote>
+
+            <p>The term <i>subject</i> covers quite a broad range - suitable examples would be a 'blog' app or a 'users' app. That said,
+            apps deliberately do not railroad the developer down any particular path, so ultimately an app is whatever you choose
+            it to be - your entire project <em>could</em> be one app - it would just be rather unweildy and you'd struggle to re-use
+            many of its components in other projects.</p>
+
+            <p>All of this leans towards treating apps almost as you would folders - the only restriction is that app folders should always
+            be lowercase. Let's get on with it and create our first app folder and setting up some simple routing - 
+            we're going to make a <em>very</em> basic 'static' app which will simply render some very basic views for known URLs. Let us begin:</p>
+
+            <pre>nick@nick-desktop:~/www/demosite$ <code>mkdir static</code></pre>
+            
+            <p>Don't worry, it gets a little more involving than this...</p>
+
+            <h4 id="routes">Routes</h4>
+
+            <p>First things first - routes are referred to as
+            <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path.php">paths</a> in the codebase. The terms
+            are interchangeable, but we'll stick to paths in this tutorial to keep inline with the classes and methods you'll
+            encounter when working with jaoss.</p>
+
+            <p>One of the first things jaoss will do when processing a request is try to work out what apps to load, and what paths
+            to load for each app. Unless you tell it any differently, it does this by looking for a <code>paths.php</code> file in each
+            subfolder in the <code>apps/</code> directory. If it doesn't find this file it'll carry on regardless, though it will log
+            to a notification log/verbose.log if you've got verbose logging enabled (you won't, yet).</p>
+
+            <p>Let's create <code>paths.php</code> and add a single path to it. Add the following lines to<code>apps/static/paths.php</code>:</p>
+
+            <pre><code>&lt;?php
+PathManager::loadPaths(
+    array("/about", "about")
+);</code></pre>
+            
 
         </div>
         <div class='span4'>
@@ -155,6 +198,13 @@ SetEnv PROJECT_MODE build
             the <a href="https://github.com/makeusabrew/paynedigital.com">Payne Digital</a>
             source, the basic <a href="https://github.com/makeusabrew/jaoss-web-template">framework template</a> or even
             <a href="https://github.com/makeusabrew/jaoss-website">this website</a>.</p>
+
+            <div class='page-header'>
+                <h3>Learning By Code</h3>
+            </div>
+            <p>Throughout this tutorial, many topics will link directly to the relevant class / folder / template
+            relating to the discussion. These links are worth taking a look at in context to get a better understanding
+            of what exactly the tutorial is describing.</p>
         </div>
     </div>
 {/block}
