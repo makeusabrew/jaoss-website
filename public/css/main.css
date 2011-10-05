@@ -35,3 +35,9 @@ h2 abbr {
 .well .meta {
     float:right;
 }
+
+.tutorial-content a[href^='https://github.com/makeusabrew/jaoss'],
+a.github {
+    padding-left:17px;
+    background:url('../img/icon-github.png') 0 50% no-repeat;
+}

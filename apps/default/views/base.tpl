@@ -25,9 +25,9 @@
                     {*
                     <li><a href="/about">About</a></li>
                     *}
-                    <li><a href="https://github.com/makeusabrew/jaoss">The Library</a></li>
-                    <li><a href="https://github.com/makeusabrew/jaoss-web-template">The Framework</a></li>
                     <li><a href="/docs">Documentation</a></li>
+                    <li><a title="this link is hosted on Github.com" href="https://github.com/makeusabrew/jaoss">The Library</a></li>
+                    <li><a title="this link is hosted on Github.com" href="https://github.com/makeusabrew/jaoss-web-template">The Framework</a></li>
                 </ul>
                 {*
                 <form action="/search" method="get">
