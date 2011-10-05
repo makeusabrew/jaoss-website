@@ -113,7 +113,7 @@ SetEnv PROJECT_MODE build
 
                 <h3 id='project-modes'>Project Modes</h3>
 
-                <p>There are five supported project modes, each of which inherits any <a href="#settings">settings</a> from
+                <p>There are five supported <a href="https://github.com/makeusabrew/jaoss/blob/master/library/settings.php#L5">project modes</a>, each of which inherits any <a href="#settings">settings</a> from
                 the mode loaded before it - though these settings can be overridden at each level. The modes are as follows:</p>
 
                 <ol>
@@ -124,15 +124,15 @@ SetEnv PROJECT_MODE build
                     <li><abbr title="Continuous Integration">ci</a></li>
                 </ol>
 
-                <p>The mode your application is running in depends on the <code>PROJECT_MODE</code> environment variable set -
-                see the earlier <a href="#project-configuration">Project Configuration</a> section for details on how to
-                configure this.</p>
+                <p>The mode your application is running in depends on the <code>PROJECT_MODE</code>
+                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/public/index.php#L42">environment variable</a>
+                set - see the earlier <a href="#project-configuration">Project Configuration</a> section for details on how to configure this.</p>
 
                 <h3 id='settings'>Settings</h3>
 
                 <p>On its own, <code>PROJECT_MODE</code> doesn't really mean a lot. Its core purpose is to control which
-                of the <code>settings/*.ini</code> files are loaded. Settings are loaded in the order noted above up to and including
-                the ini file matching the current mode. Therefore if your <code>PROJECT_MODE</code> is set to <code>build</code>,
+                of the <a href="https://github.com/makeusabrew/jaoss-web-template/tree/master/settings">settings/*.ini</a> files are loaded. Settings are loaded in the order noted above up to and including
+                the ini file <a href="https://github.com/makeusabrew/jaoss/blob/master/library/settings.php#L33">matching the current mode</a>. Therefore if your <code>PROJECT_MODE</code> is set to <code>build</code>,
                 the framework will attempt to load (in order):</p>
 
                 <ol>
@@ -146,7 +146,11 @@ SetEnv PROJECT_MODE build
                 
                 <p>As noted earlier, settings cascade down through each mode such that those declared in the last loaded ini file
                 will take precedence over any which have previously been loaded. This allows the bulk of the settings to be
-                declared in settings/live.ini and refined at each level as required.</p>
+                declared in <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/live.ini">settings/live.ini</a>
+                and <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/demo.ini">refined</a> at
+                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/build.ini">each</a>
+                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/test.ini">level</a> as
+                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/ci.ini">required</a>.</p>
 
                 <h3 id='creating-an-app'>Creating an app</h3>
 
