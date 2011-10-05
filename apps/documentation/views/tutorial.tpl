@@ -16,7 +16,7 @@
                 <li><a href="#project-configuration">Project Configuration</a>
                     <ol>
                         <li><a href="#virtualhost-setup">VirtualHost Setup</a></li>
-                        <li><a href="#subfolder-setuo">Subfolder Setup</a></li>
+                        <li><a href="#subfolder-setup">Subfolder Setup</a></li>
                         <li><a href="#directory-permissions">Directory Permissions</a></li>
                     </ol>
                 </li>
@@ -221,6 +221,13 @@ PathManager::loadPaths(
                 "height" : 270,
                 "autoDimensions" : false
             });
+            // have we got GA tracking on?
+            if (typeof _gaq != 'undefined') {
+                // if so, track links made in the table of contents
+                $("ol li a[href^='#']").click(function(e) {
+                    _gaq.push(['_trackEvent', 'Tutorial', $(this).html()]);
+                });
+            }
         });
     </script>
 {/block}
