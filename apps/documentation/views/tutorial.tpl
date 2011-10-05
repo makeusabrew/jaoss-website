@@ -29,9 +29,17 @@
                         <li><a href="#views">Views</a></li>
                     </ol>
                 </li>
-                <li>A more advanced app: Latest News
+                <li><a href="#a-more-advanced-app-latest-news">A more advanced app: Latest News</a>
                     <ol>
-                        <li>Models</li>
+                        <li><a href="#models">Models</a>
+                            <ol>
+                                <li><a href="#objects">Objects</a></li>
+                                <li><a href="#tables">Tables</a></li>
+                                <li><a href="#a-note-on-data-persistence">A note on data persistence</a></li>
+                                <li><a href="#crud-functionality-objects-vs-tables">CRUD functionality: Objects Vs Tables</a></li>
+                                <li><a href='#defining-your-models-fields'>Defining your model's fields</a></li>
+                            </ol>
+                        </li>
                         <li>Dynamic route parameters</li>
                     </ol>
                 </li>
@@ -188,10 +196,7 @@ SetEnv PROJECT_MODE build
 
                 <p>Let's create <code>paths.php</code> and add a single path to it. Add the following lines to <code>apps/static/paths.php</code>:</p>
 
-                <pre><code>&lt;?php
-PathManager::loadPaths(
-    array("/about", "about")
-);</code></pre>
+                <script src="https://gist.github.com/1265692.js"> </script>
 
                 <p>This snippet adds a path which will match a URL of /about (the first argument) to a controller action of the same name (the second
                 argument). It takes additional optional arguments such as the controller to use and its location, which if omitted are worked out
@@ -223,17 +228,7 @@ The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.p
                 the controller name, minus the 'controller' part since this is assumed from the fact the
                 file is inside a 'controllers' directory. Populate your newly created file as follows:</p>
 
-<pre><code>&lt;?php
-
-class StaticController extends Controller {
-    public function about() {
-        // any controller logic would take place here
-        $title = "Hello About Page!";
-
-        // assign the value of $title to the view, where it will be accessible as $pageTitle
-        $this->assign("pageTitle", $title);
-    }
-}</code></pre>
+                <script src="https://gist.github.com/1265702.js"> </script>
 
                 <p>Upon refreshing the page you should now be presented with a <b>Template Not Found</b> error which gives you
                 a clear indication as to what jaoss was expecting to find. If your controller action does not explicitly return
@@ -247,11 +242,8 @@ class StaticController extends Controller {
                 <p>Jaoss uses the <a href="http://www.smarty.net/">Smarty</a> template engine to render views. There are no plans to support other
                 mechanisms (such as <a href="http://twig.sensiolabs.org/">Twig</a>) just yet, though of course any forks are welcome to add this. Create
                 <code>apps/static/views/about.tpl</code> and add some basic content to it:</p>
-{literal}
-<pre><code>&lt;h1&gt;{$pageTitle}&lt;/h1&gt;
 
-&lt;p&gt;This is my first application page!&lt;/p&gt;</code></pre>
-{/literal}
+                <script src="https://gist.github.com/1265713.js"> </script>
 
                 <p>Refresh the page and you should see the fruits of your labour, with the &lt;h1&gt; sporting the content you assigned
                 from the controller.</p>
@@ -271,22 +263,19 @@ class StaticController extends Controller {
                     <li>An archive page showing old articles (we'll worry about what <i>old</i> means later).</li>
                 </ul>
 
+                <p>We'll start off by discussing models as they are implemented in the framework before moving on to
+                create our own to represent news articles.</p>
+
                 <h4 id='models'>Models</h4>
 
                 <p>Models are, as in any <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> framework, a fundamental
                 part of most applications you'll make. This isn't the place to discuss what models are conceptually - but it is the place to discuss their
-                implementation in jaoss, so let's do that. Each Model you'll create is split into two distinct classes:</p>
+                implementation in jaoss, so let's do that. Each model you'll create is split into two distinct classes:</p>
 
                 <ol>
                     <li><a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php">Objects</a> - a single entity - e.g. one person, one news article, one photo</li>
                     <li><a href="https://github.com/makeusabrew/jaoss/blob/master/library/table.php">Tables</a> - a collection of objects</li>
                 </ol>
-
-                <h5 id='a-note-on-data-persistence'>A note on data persistence</h5>
-                <p>One area where you may find jaoss differs to other frameworks is the coupling between models and the data storage
-                underpinning them - the only currently supported mapping being to a MySQL database. In general, tight coupling is bad,
-                but jaoss is a framework driven by necessity, and thus far decoupling models from their database backend has not been
-                necessary.</p>
 
                 <h5 id='objects'>Objects</h5>
 
@@ -303,41 +292,78 @@ class StaticController extends Controller {
 
                 <p>A table represents the concept of a collection of objects. As such, the vast majority of methods you'll declare in your table
                 will be similar to <code>findBy...()</code> or <code>getBy...()</code> (no particular naming convention is enforced) which will in
-                most cases return an array of <a href="#objects">Objects</a>.</p>
+                most cases return an array of <a href="#objects">Objects</a>. Principally, table methods deal with
+                reading either single or multiple objects.</p>
 
-                {* CRUD truth table style thing here? *}
-                <h5>Class responsibilities in a CRUD truth-table</h5>
+                <h5 id='a-note-on-data-persistence'>A note on data persistence</h5>
+
+                <p>One area where you may find jaoss differs to other frameworks is the fairly tight coupling between models and the data storage
+                underpinning them - the only currently supported mapping being to a MySQL database. In general, tight coupling is bad,
+                but jaoss is a framework driven by necessity, and thus far decoupling models from their database backend has not been
+                necessary. Additionally, <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+                functionality is not isolated to one class or the other, hence they are both database aware. This behaviour
+                is discussed above and summarised in the following table:</p>
+
+                <h5 id='crud-functionality-objects-vs-tables'><a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> functionality: Object Vs Table</h5>
+
                 <table>
                     <thead>
                         <tr>
                             <th>&nbsp;</th>
-                            <th>Object</th>
-                            <th>Table</th>
+                            <th>Class</th>
+                            <th>DB Method(s)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th>Create</th>
-                            <td>Yes</td>
-                            <td>No</td>
+                            <td><strong>Create</strong></td>
+                            <td>Object</td>
+                            <td><a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php#L142">save</a></td>
                         </tr>
                         <tr>
-                            <th>Read</th>
-                            <td>No</td>
-                            <td>Yes</td>
+                            <td><strong>Read</strong></td>
+                            <td>Table</td>
+                            <td><a href="https://github.com/makeusabrew/jaoss/blob/master/library/table.php#L158">read</a>,
+                            <a href="https://github.com/makeusabrew/jaoss/blob/master/library/table.php#L129">find</a>,
+                            <a href="https://github.com/makeusabrew/jaoss/blob/master/library/table.php#L97">findAll</a> <small>+ your own</small></td>
                         </tr>
                         <tr>
-                            <th>Update</th>
-                            <td>Yes</td>
-                            <td>No</td>
+                            <td><strong>Update</strong></td>
+                            <td>Object</td>
+                            <td><a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php#L142">save</a></td>
                         </tr>
                         <tr>
-                            <th>Delete</th>
-                            <td>Yes</td>
-                            <td>No</td>
+                            <td><strong>Delete</strong></td>
+                            <td>Object</td>
+                            <td><a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php#L184">delete</a></td>
                         </tr>
                     </tbody>
                 </table>
+
+                <p>This might lead you to think that the responsibilities are somewhat skewed and that the Table class
+                is rather superflous - but it has one key property which is the corner stone of all models:
+                the <a href="https://github.com/makeusabrew/jaoss/blob/master/library/table.php#L11">$meta</a> array.
+                It's this array which holds the definition for the fields (or columns) which represent and define your
+                model's data.</p>
+
+                <h5 id='defining-your-models-fields'>Defining your model's fields</h5>
+
+                <p>You define your model's fields as a nested array inside your table's <code>$meta</code> array. Arguably, these fields
+                could be declared as a property of the object instead - after all, it's objects which actually have
+                fields with values populated from database tables. However, therein lies the point: if you've got an object
+                then you want <em>data</em>, not <a href="http://en.wikipedia.org/wiki/Metadata"><em>data about data</em></a>.
+                Similarly it is the (database) table which physically defines the fields we can store, so it is the (model) Table
+                which defines them in our application. Lastly, if you have an array of hundreds or thousands of objects, the
+                last thing you need is a useless array of meta data duplicated across each and every one.</p>
+
+                <p>Fields should never be declared <b>directly</b> inside the meta array - instead they should be declared in
+                a namespaced <code>columns</code> array to allow for other meta data to be added in future*.
+                For example:</p>
+
+                <script src="https://gist.github.com/1265672.js"> </script>
+
+                <p><small>* this is pretty much the only example of 'we might need this...' you'll find in the framework. Everything
+                else is there because it <strong>is used</strong>.</small></p>
 
             </div>
             
