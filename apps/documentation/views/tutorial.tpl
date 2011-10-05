@@ -181,10 +181,12 @@ SetEnv PROJECT_MODE build
                 are interchangeable, but we'll stick to paths in this tutorial to keep inline with the classes and methods you'll
                 encounter when working with jaoss.</p>
 
-                <p>One of the first things jaoss will do when processing a request is try to work out what apps to load, and what paths
-                to load for each app. Unless you tell it any differently, it does this by looking for a <code>paths.php</code> file in each
-                subfolder in the <code>apps/</code> directory. If it doesn't find this file it'll carry on regardless, though it will log
-                to a notification log/verbose.log if you've got verbose logging enabled (you won't, yet).</p>
+                <p>One of the <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/public/index.php#L50">first things</a>
+                jaoss will do when processing a request is try to work out what apps to load, and what paths
+                to load for each app. It does this by <a href="https://github.com/makeusabrew/jaoss/blob/master/library/app.php#L15">looking for a paths.php</a>
+                file in each subfolder in the <code>apps/</code> directory. If it doesn't find this file it'll carry on regardless, though it will 
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/app.php#L55">log</a> to log/verbose.log if you've got verbose
+                logging enabled (you won't, yet).</p>
 
                 <p>Let's create <code>paths.php</code> and add a single path to it. Add the following lines to<code>apps/static/paths.php</code>:</p>
 
