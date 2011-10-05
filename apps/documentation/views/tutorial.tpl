@@ -277,7 +277,7 @@ class StaticController extends Controller {
             </div>
             <p>Throughout this tutorial, many topics will link directly to the relevant class / folder / template
             relating to the discussion. These links are worth taking a look at in context to get a better understanding
-            of what exactly the tutorial is describing. They will be shown <a class='github' href="https://github.com/makeusabrew">like this</a>.</p>
+            of what exactly the tutorial is describing. They will be shown <a title='The Octocat denotes a link to Github' href="https://github.com/makeusabrew/jaoss">like this</a>.</p>
         </div>
     </div>
 {/block}

@@ -37,7 +37,7 @@ h2 abbr {
 }
 
 .tutorial-content a[href^='https://github.com/makeusabrew/jaoss'],
-a.github {
+a[title~='Octocat'] {
     padding-left:17px;
     background:url('../img/icon-github.png') 0 50% no-repeat;
 }
