@@ -24,9 +24,9 @@
                 <li><a href="#settings">Settings</a></li>
                 <li><a href="#creating-an-app">Creating an app</a>
                     <ol>
-                        <li>Routes</li>
-                        <li>Actions</li>
-                        <li>Views</li>
+                        <li><a href="#routes">Routes</a></li>
+                        <li><a href="#actions">Actions</a></li>
+                        <li><a href="#views">Views</a></li>
                     </ol>
                 </li>
                 <li>A more advanced app
@@ -207,8 +207,57 @@ PathManager::loadPaths(
                 request URL (e.g. /about) to a path. It also keeps track of which paths it's already tried to match - in short, it's
                 a crucial part of a jaoss request.</p>
 
-                <p>Enough talk - head on over to http:&lt;your-website&gt;.build/about and see what happens. Probably something
-                like this:</p>
+                <h4 id='actions'>Actions</h4>
+
+                <p>Enough talk - head on over to http://&lt;your-website&gt;.build/about and see what happens. With any luck, you'll get
+                a developer friendly error which says something like:</p>
+
+                <pre><strong>Could not find controller class 'StaticController'</strong>
+
+Controller class <strong>StaticController</strong> could not be found.
+
+The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.php</strong>.</pre>
+
+                <p>Go ahead and create the file it's after in <code>apps/static/controllers/static.php</code>. Note that the filename
+                is a <a href="https://github.com/makeusabrew/jaoss/blob/master/library/controller.php#L57">lowercased</a> version of
+                the controller name, minus the 'controller' part since this is assumed from the fact the
+                file is inside a 'controllers' directory. Populate your newly created file as follows:</p>
+
+<pre><code>&lt;?php
+
+class StaticController extends Controller {
+    public function about() {
+        // any controller logic would take place here
+        $title = "Hello About Page!";
+
+        // assign the value of $title to the view, where it will be accessible as $pageTitle
+        $this->assign("pageTitle", $title);
+    }
+}</code></pre>
+
+                <p>Upon refreshing the page you should now be presented with a <b>Template Not Found</b> error which gives you
+                a clear indication as to what jaoss was expecting to find. If your controller action does not explicitly return
+                anything, jaoss will attempt to <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path.php#L33">render</a>
+                a template matching the name of the action it just executed (in our case, <b>about.tpl</b>). Let's create that file now -
+                the error should tell you where it was looking for it, the first of which should be <strong>/var/www/yoursite/apps/static/views</strong>,
+                so we'll put it in there.</p>
+
+                <h4 id='views'>Views</h4>
+
+                <p>Jaoss uses the <a href="http://www.smarty.net/">Smarty</a> template engine to render views. There are no plans to support other
+                mechanisms (such as <a href="http://twig.sensiolabs.org/">Twig</a>) just yet, though of course any forks are welcome to add this. Create
+                <code>apps/static/views/about.tpl</code> and add some basic content to it:</p>
+{literal}
+<pre><code>&lt;h1&gt;{$pageTitle}&lt;/h1&gt;
+
+&lt;p&gt;This is my first application page!&lt;/p&gt;</code></pre>
+{/literal}
+
+                <p>Refresh the page and you should see the fruits of your labour, with the &lt;h1&gt; sporting the content you assigned
+                from the controller.</p>
+
+                <p>These three simple steps of creating a path, an action and a view don't seem like much but they pave the way for incredibly
+                powerful, dynamic and flexible applications - and along with models form the backbone of any application you're likely to create.</p>
 
             </div>
             
@@ -247,7 +296,11 @@ PathManager::loadPaths(
             if (typeof _gaq != 'undefined') {
                 // if so, track links made in the table of contents
                 $("ol li a[href^='#']").click(function(e) {
-                    _gaq.push(['_trackEvent', 'Tutorial', $(this).html()]);
+                    _gaq.push(['_trackEvent', 'Tutorial', 'Internal', $(this).html()]);
+                });
+
+                $(".tutorial-content a[href^='https://github.com/makeusabrew/jaoss']").click(function(e) {
+                    _gaq.push(['_trackEvent', 'Tutorial', 'External',  $(this).attr("href")]);
                 });
             }
         });
