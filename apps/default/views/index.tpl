@@ -6,8 +6,8 @@
             <div class='page-header'>
                 <h2>What's JAOSS?</h2>
             </div>
-            <p><a href="https://github.com/makeusabrew/jaoss">JAOSS</a> is an open source, object oriented PHP5 library &amp; framework. Whilst
-            the library can be used standalone, it is designed to be used as part of the <a href="https://github.com/makeusabrew/jaoss-web-template">JAOSS
+            <p><a href="https://github.com/makeusabrew/jaoss">JAOSS</a> is an open source, object oriented PHP5 library &amp; <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"><abbr title="Model View Controller">MVC</abbr></a>
+            framework. Whilst the library can be used standalone, it is designed to be used as part of the <a href="https://github.com/makeusabrew/jaoss-web-template">JAOSS
             Web Template</a> framework to enable rapid, robust and testable web application development. The ethos of the project focusses on speed &#8212; of both development
             and code execution.</p>
 

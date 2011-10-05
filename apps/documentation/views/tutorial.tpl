@@ -29,7 +29,7 @@
                         <li><a href="#views">Views</a></li>
                     </ol>
                 </li>
-                <li>A more advanced app
+                <li>A more advanced app: Latest News
                     <ol>
                         <li>Models</li>
                         <li>Dynamic route parameters</li>
@@ -258,6 +258,86 @@ class StaticController extends Controller {
 
                 <p>These three simple steps of creating a path, an action and a view don't seem like much but they pave the way for incredibly
                 powerful, dynamic and flexible applications - and along with models form the backbone of any application you're likely to create.</p>
+
+                <h3 id='a-more-advanced-app-latest-news'>A more advanced app: Latest News</h3>
+
+                <p>The app we just created was pretty boring, and not exactly very dynamic. Let's look at creating the staple of many websites;
+                some news. To do this, we're going to want a model to represent our news stories, and some more dynamic routes to cater for the
+                fact our data is also dynamic. We'll expose a few URLs to our end users:</p>
+
+                <ul>
+                    <li>An index page showing snippets of the 5 most recently published articles</li>
+                    <li>A full article page</li>
+                    <li>An archive page showing old articles (we'll worry about what <i>old</i> means later).</li>
+                </ul>
+
+                <h4 id='models'>Models</h4>
+
+                <p>Models are, as in any <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> framework, a fundamental
+                part of most applications you'll make. This isn't the place to discuss what models are conceptually - but it is the place to discuss their
+                implementation in jaoss, so let's do that. Each Model you'll create is split into two distinct classes:</p>
+
+                <ol>
+                    <li><a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php">Objects</a> - a single entity - e.g. one person, one news article, one photo</li>
+                    <li><a href="https://github.com/makeusabrew/jaoss/blob/master/library/table.php">Tables</a> - a collection of objects</li>
+                </ol>
+
+                <h5 id='a-note-on-data-persistence'>A note on data persistence</h5>
+                <p>One area where you may find jaoss differs to other frameworks is the coupling between models and the data storage
+                underpinning them - the only currently supported mapping being to a MySQL database. In general, tight coupling is bad,
+                but jaoss is a framework driven by necessity, and thus far decoupling models from their database backend has not been
+                necessary.</p>
+
+                <h5 id='objects'>Objects</h5>
+
+                <p>An object &mdash; a single entity &mdash; knows how to do things relating to itself, but not its peers. For example, an object might declare a method
+                <code>getDisplayName()</code> which might try and return a friendly name for a person (e.g. Nick Payne, or Nick, or @makeusabrew if I hadn't entered my full details).
+                It would <strong>not</strong>, however, declare a method called <code>findByName($forename, $surname)</code> - this should instead be left to the model's
+                corresponding <a href='#tables'>Table</a>.</p>
+
+                <p>Objects <em>do</em> know how to create, update or delete their equivalent row in the database table which represents them via their
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php#L142">save</a> and
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/object.php#L184">delete</a> methods.</p>
+
+                <h5 id='tables'>Tables</h5>
+
+                <p>A table represents the concept of a collection of objects. As such, the vast majority of methods you'll declare in your table
+                will be similar to <code>findBy...()</code> or <code>getBy...()</code> (no particular naming convention is enforced) which will in
+                most cases return an array of <a href="#objects">Objects</a>.</p>
+
+                {* CRUD truth table style thing here? *}
+                <h5>Class responsibilities in a CRUD truth-table</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Object</th>
+                            <th>Table</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Create</th>
+                            <td>Yes</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <th>Read</th>
+                            <td>No</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <th>Update</th>
+                            <td>Yes</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <th>Delete</th>
+                            <td>Yes</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
             
