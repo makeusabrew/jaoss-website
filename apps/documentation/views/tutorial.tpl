@@ -365,6 +365,12 @@ The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.p
                 <p><small>* this is pretty much the only example of 'we might need this...' you'll find in the framework. Everything
                 else is there because it <strong>is used</strong>.</small></p>
 
+                <p>A list of available column types and other keys is discussed later - the important aspect for now is to remember
+                that fields must be declared within a <code>columns</code> array.</p>
+
+                <p>We could discuss the concepts of models in a lot more detail, but let's just get stuck in and get back to our
+                real world example. Let's create a model to represent our news articles.</p>
+
             </div>
             
 
