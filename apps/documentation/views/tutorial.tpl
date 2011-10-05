@@ -148,9 +148,7 @@ SetEnv PROJECT_MODE build
                 will take precedence over any which have previously been loaded. This allows the bulk of the settings to be
                 declared in <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/live.ini">settings/live.ini</a>
                 and <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/demo.ini">refined</a> at
-                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/build.ini">each</a>
-                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/test.ini">level</a> as
-                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/ci.ini">required</a>.</p>
+                <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/build.ini">each level</a> as required.</p>
 
                 <h3 id='creating-an-app'>Creating an app</h3>
 
@@ -188,12 +186,30 @@ SetEnv PROJECT_MODE build
                 <a href="https://github.com/makeusabrew/jaoss/blob/master/library/app.php#L55">log</a> to log/verbose.log if you've got verbose
                 logging enabled (you won't, yet).</p>
 
-                <p>Let's create <code>paths.php</code> and add a single path to it. Add the following lines to<code>apps/static/paths.php</code>:</p>
+                <p>Let's create <code>paths.php</code> and add a single path to it. Add the following lines to <code>apps/static/paths.php</code>:</p>
 
                 <pre><code>&lt;?php
 PathManager::loadPaths(
     array("/about", "about")
 );</code></pre>
+
+                <p>This snippet adds a path which will match a URL of /about (the first argument) to a controller action of the same name (the second
+                argument). It takes additional optional arguments such as the controller to use and its location, which if omitted are worked out
+                automagically based on the location of the paths.php file which was loaded.</p>
+
+                <p>There are two main methods available for loading paths, though
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path_manager.php#L59">loadPaths</a> as used above is the
+                most flexible and most consice (particularly when adding a large number of paths).</p>
+
+                <p>The <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path_manager.php">Path Manager</a>
+                object is responsible for loading all available paths for each app as well as
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/request.php#L94">matching</a> a
+                request URL (e.g. /about) to a path. It also keeps track of which paths it's already tried to match - in short, it's
+                a crucial part of a jaoss request.</p>
+
+                <p>Enough talk - head on over to http:&lt;your-website&gt;.build/about and see what happens. Probably something
+                like this:</p>
+
             </div>
             
 
