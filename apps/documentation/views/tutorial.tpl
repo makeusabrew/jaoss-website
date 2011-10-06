@@ -460,7 +460,7 @@ Found Articles model!
                 <img src="/img/add-article-2.png" alt="" />
 
                 <p>Perfect - we've even got the proper label names too. We're now ready to beef up our action to handle the post
-                request, validate the user's input, and if it is, create a new article. If we do create a new article, we'll
+                request, validate the user's input, and if it is valid then create a new article. If we do create a new article, we'll
                 redirect the user straight to view it. If we don't, we'll render the form again and notify the user of any
                 errors with their input. This entire flow is shown in the snippet below:</p>
 
@@ -491,9 +491,9 @@ Found Articles model!
 06/10/2011 11:22:13 (DEBUG)   - Article::setValues() returning [true] with error count [0]
 06/10/2011 11:22:13 (WARN)    - Handling error of type [CoreException] with message [No Path found for options] and code [11]</pre>
 
-                <p class='alert-message success'><strong>Remember:</strong> <code>tail -f log/debug.log</code> is your friend!</p>
+                <p class='alert-message success'><strong>Remember:</strong> <strong>tail -f log/debug.log</strong> is your friend!</p>
 
-                <p>So - our trusted users can now add articles to our website, but they can't yet see them. Let's tackle that next.</p>
+                <p>So - our trusty users can now add articles to our website, but they can't yet see them. Let's tackle that next.</p>
 
                 <h4 id='dynamic-path-parameters'>Dynamic path parameters</h4>
 
@@ -502,7 +502,7 @@ Found Articles model!
                 the ID of the article we wish to view. We do this using a combination of <a href="http://www.regular-expressions.info/">regular expressions</a>
                 and <a href="http://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions#Features">named subpatterns</a>.
                 You don't have to know a massive amount about either - in fact, the routes we've been
-                entering prior to this point have simply been <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path_manager.php#L130">simple regular expressions all along</a>
+                entering prior to this point have been <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path_manager.php#L130">simple regular expressions all along</a>
                 - you just didn't know it. Let's add our new path now:</p>
 
                 <script src="https://gist.github.com/1267112.js"> </script>
@@ -510,7 +510,8 @@ Found Articles model!
                 <p>All we're doing is capturing a named sub pattern called <code>id</code> which, if matched, will always be an integer as denoted
                 by <code>\d+</code>. Any sub patterns captured in your paths are available in your controller via the
                 <a href="https://github.com/makeusabrew/jaoss/blob/master/library/controller.php#L89">getMatch</a> method. Let's create our new action
-                and view to render our articles:</p>
+                and view to render our articles - notice that we've stripped out the comments and unnecessary variables from <code>add_article</code> to
+                save a bit of space:</p>
 
                 <script src="https://gist.github.com/1267146.js"> </script>
 
