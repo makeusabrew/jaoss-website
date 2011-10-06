@@ -372,7 +372,7 @@ The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.p
                 <p><small>*obviously, in a real application this would lead to complete carnage without some form of user authentication
                 or article moderation - topics which are covered later.</small></p>
 
-                <p>Let's drive straight in by creating our model to represent our articles:</p>
+                <p>Let's dive straight in by creating our model to represent our articles:</p>
 
                 <script src="https://gist.github.com/1266784.js"> </script>
 
