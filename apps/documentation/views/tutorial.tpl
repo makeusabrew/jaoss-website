@@ -361,7 +361,7 @@ The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.p
                 <p>The app we just created was pretty boring, and not exactly very dynamic. Let's look at creating the staple of many websites;
                 some news. To do this, we're going to want a model to represent our news stories, and some more dynamic routes to cater for the
                 fact our data is also dynamic. Our news is going to be user generated - anyone can anonymously submit news providing they
-                enter an email address*.
+                enter an email address*. We're going to need:</p>
 
                 <ul>
                     <li>An 'add article' page</li>
