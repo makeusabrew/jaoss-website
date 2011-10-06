@@ -41,3 +41,20 @@ a[title~='Octocat'] {
     padding-left:17px;
     background:url('../img/icon-github.png') 0 50% no-repeat;
 }
+
+.tutorial-content h3 {
+    margin-bottom: 17px;
+    border-bottom: 1px solid #DDD;
+}
+
+.tutorial-content .gist {
+    padding:1em 0;
+}
+
+.tutorial-content .cli-error {
+    color:#ff0000;
+}
+
+.tutorial-content .cli-success {
+    color:#00ff00;
+}

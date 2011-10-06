@@ -27,10 +27,6 @@
                         <li><a href="#routes">Routes</a></li>
                         <li><a href="#actions">Actions</a></li>
                         <li><a href="#views">Views</a></li>
-                    </ol>
-                </li>
-                <li><a href="#a-more-advanced-app-latest-news">A more advanced app: Latest News</a>
-                    <ol>
                         <li><a href="#models">Models</a>
                             <ol>
                                 <li><a href="#objects">Objects</a></li>
@@ -40,7 +36,11 @@
                                 <li><a href='#defining-your-models-fields'>Defining your model's fields</a></li>
                             </ol>
                         </li>
-                        <li>Dynamic route parameters</li>
+                    </ol>
+                </li>
+                <li><a href="#a-more-advanced-app-latest-news">A more advanced app: Latest News</a>
+                    <ol>
+                        <li><a href="#dynamic-path-parameters">Dynamic path parameters</a></li>
                     </ol>
                 </li>
                 <li>Sessions</li>
@@ -251,21 +251,6 @@ The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.p
                 <p>These three simple steps of creating a path, an action and a view don't seem like much but they pave the way for incredibly
                 powerful, dynamic and flexible applications - and along with models form the backbone of any application you're likely to create.</p>
 
-                <h3 id='a-more-advanced-app-latest-news'>A more advanced app: Latest News</h3>
-
-                <p>The app we just created was pretty boring, and not exactly very dynamic. Let's look at creating the staple of many websites;
-                some news. To do this, we're going to want a model to represent our news stories, and some more dynamic routes to cater for the
-                fact our data is also dynamic. We'll expose a few URLs to our end users:</p>
-
-                <ul>
-                    <li>An index page showing snippets of the 5 most recently published articles</li>
-                    <li>A full article page</li>
-                    <li>An archive page showing old articles (we'll worry about what <i>old</i> means later).</li>
-                </ul>
-
-                <p>We'll start off by discussing models as they are implemented in the framework before moving on to
-                create our own to represent news articles.</p>
-
                 <h4 id='models'>Models</h4>
 
                 <p>Models are, as in any <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> framework, a fundamental
@@ -368,8 +353,170 @@ The path searched was <strong>/var/www/yoursite/apps/static/controllers/static.p
                 <p>A list of available column types and other keys is discussed later - the important aspect for now is to remember
                 that fields must be declared within a <code>columns</code> array.</p>
 
-                <p>We could discuss the concepts of models in a lot more detail, but let's just get stuck in and get back to our
-                real world example. Let's create a model to represent our news articles.</p>
+                <p>We could discuss the concepts of models in a lot more detail, but let's just get stuck in with a
+                real world example. Let's create a more advanced app which will deal with models and more advanced routing.</p>
+
+                <h3 id='a-more-advanced-app-latest-news'>A more advanced app: Latest News</h3>
+
+                <p>The app we just created was pretty boring, and not exactly very dynamic. Let's look at creating the staple of many websites;
+                some news. To do this, we're going to want a model to represent our news stories, and some more dynamic routes to cater for the
+                fact our data is also dynamic. Our news is going to be user generated - anyone can anonymously submit news providing they
+                enter an email address*.
+
+                <ul>
+                    <li>An 'add article' page</li>
+                    <li>A 'view article' page</li>
+                    <li>An index page showing snippets of the 5 most recently created articles</li>
+                </ul>
+
+                <p><small>*obviously, in a real application this would lead to complete carnage without some form of user authentication
+                or article moderation - topics which are covered later.</small></p>
+
+                <p>Let's drive straight in by creating our model to represent our articles:</p>
+
+                <script src="https://gist.github.com/1266784.js"> </script>
+
+                <p>Let's create the MySQL table to store our model. We're going to use the <a href="#cli-tools">CLI Tools</a> to do this,
+                though of course we could just create it manually. Notice in the snippet below we manually pass the <code>PROJECT_MODE</code>
+                environment variable as by default the CLI tools work in test mode, whereas we want to work in build mode for now. If you don't
+                want to have to type <code>PROJECT_MODE=build</code>
+                each time you invoke the cli tools you can of course run <code>export PROJECT_MODE=build</code> on a bash like shell.</p>
+
+                <pre>nick@nick-desktop:~/www/demosite$ <code>PROJECT_MODE=build ./jcli create table Articles</code>
+PROJECT_MODE set to build
+
+Looking for model in project apps directory...
+Found Articles model!
+<span class='cli-error'>[PDOException] SQLSTATE[28000] [1045] Access denied for user 'youruser'@'localhost' (using password: YES)</span></pre>
+
+                <p>Ah. That's not quite what we wanted to see. We haven't given jaoss our access credentials to our database yet so it's using
+                the defaults found in <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/settings/live.ini#L11">settings/live.ini</a> which
+                are of course incorrect. Rather than alter them directly, we're going to override the relevant settings in <code>settings/build.ini</code>
+                since that's the mode we're working in. Create a database for your project if you haven't already (I'm using <code>demosite_build</code>) and then update
+                build.ini:</p>
+
+                <p class='alert-message block-message warning'>You should <strong>always</strong> create a new database user for each project you create and make sure
+                it has <code>ALL PRIVILEGES</code> on the relevant database. <strong>Do not</strong> simply re-use your root login - for starters, everyone on
+                the project probably has different root passwords (or they should!) and besides, you really don't want to expose this information
+                anyway.</p>
+
+                <script src="https://gist.github.com/1266856.js"> </script>
+
+                <p>Let's run the <code>create table</code> command again. You should see something like:</p>
+
+                <pre>nick@nick-desktop:~/www/demosite$ <code>PROJECT_MODE=build ./jcli create table Articles</code>
+PROJECT_MODE set to build
+
+Looking for model in project apps directory...
+Found Articles model!
+<span class='cli-success'>Table articles created on database [demosite_build]</span>
+<span class='cli-success'>Don't forget to add this new table to any test fixtures!</span>
+<span class='cli-success'>Done (0.082 secs)</span></pre>
+
+                <p class='alert-message block-message info'>You can optionally pass the
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/cli/cmd/create.php#L144"><code>--output-only</code></a> flag to this command
+                to see what SQL would be executed instead of actually running it. This is useful to verify that the table schema is as
+                you'd expect it to be before committing to it.</p>
+
+                <p>Perfect - we've now defined our basic model and created a database table to store it in. Let's dive in
+                and create a path which will allow users to add articles to the site. While we're at it, we'll also create a placeholder 
+                news controller and a placeholder view containing a form so a user can add an article:</p>
+
+                <script src="https://gist.github.com/1266934.js"> </script>
+
+                <p>If you load http://&lt;your-website&gt;.build/articles/add in your browser you should see your simple - and completely empty -
+                form. Notice that you can submit the form and the page will still render even though the request method of the form is set to <code>POST</code>;
+                by default, paths respond to any request method, though you can <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path_manager.php#L40">restrict this</a>.</p>
+
+                <p>Let's turn our attention to that form, because without it we can't get very far. The framework ships with a useful
+                helper in its default application called <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/apps/default/views/helpers/field.tpl">field.tpl</a>,
+                which although not pretty to look at, is incredibly useful when dealing with forms and in particular forms which need to be
+                generated based on a model's fields. Let's refactor our view it in incremental stages to shed a bit of light on how the
+                field helper works. Firstly, let's add some fields in manually:</p>
+
+                <script src="https://gist.github.com/1266967.js"> </script>
+
+                <p>Refresh the page - you'll see a list of labels and text inputs corresponding to the field names
+                you passed through when including each field template. Naturally, the label names and the
+                field types aren't quite right, so let's sort that out:</p>
+
+                <script src="https://gist.github.com/1266990.js"> </script>
+
+                <p>Which should end up looking something like:</p>
+
+                <img src="/img/add-article.png" alt="" />
+
+                <p>We're getting there - but this probably all feels a little bit like déjà vu because we're pretty much
+                just re-declaring the contents of our table's <code>columns</code> array. In fact, the first thing the field
+                helper does is <a href="https://github.com/makeusabrew/jaoss-web-template/blob/master/apps/default/views/helpers/field.tpl#L1">look for a smarty variable</a>
+                of that name, which if it finds it then uses to render the appropriate label, input type and attributes for the given
+                field. Let's make that information available to smarty and refactor our view:</p>
+
+                <script src="https://gist.github.com/1267007.js"> </script>
+
+                <p>Notice that our view is now much simpler again - all we have to do is tell the field helper which field we're
+                interesting in rendering, and it does the rest. The result looks like this:</p>
+
+                <img src="/img/add-article-2.png" alt="" />
+
+                <p>Perfect - we've even got the proper label names too. We're now ready to beef up our action to handle the post
+                request, validate the user's input, and if it is, create a new article. If we do create a new article, we'll
+                redirect the user straight to view it. If we don't, we'll render the form again and notify the user of any
+                errors with their input. This entire flow is shown in the snippet below:</p>
+
+                <script src="https://gist.github.com/1267055.js"> </script>
+
+                <p>As you can see, without the over-commenting and unnecessary temporary variables (shown for clarity),
+                the actual logic involved in this common flow is minimal.<p>
+
+                <p class='alert-message block-message info'>If you're using a modern browser there's a good chance you
+                won't even be able to submit the form if your input isn't valid. This is because the field helper uses
+                HTML5 input attributes where possible, preventing you from submitting the form with empty / invalid
+                data. If you want to verify your server-side error handling is working, try overriding the email field
+                helper include with a type of 'text' and then entering an invalid email address. You'll hit the form again
+                this time with the error rendered next to the input - this is taken care of by the field helper.</p>
+
+                <p>Go ahead and fill out the form with some valid data and hit the submit button. Strangely, if everything
+                worked you'll be greeted with a developer error, but fear not - this is only because we're trying to
+                redirect to an action which doesn't exist yet (<code>view_article</code>). As a brief aside, let's take a look at
+                the output in debug.log for a POST request to our add_article handler:</p>
+
+                <pre>06/10/2011 11:22:13 (DEBUG)   - matched pattern [^/articles/add$] against URL [/articles/add] (location [apps/news] controller [News]
+06/10/2011 11:22:13 (DEBUG)   - Init [NewsController-&gt;add_article]
+06/10/2011 11:22:13 (DEBUG)   - Start [NewsController-&gt;add_article]
+06/10/2011 11:22:13 (DEBUG)   - Validate::required(test) [title] - [OK]
+06/10/2011 11:22:13 (DEBUG)   - Validate::required(this is my test article) [content] - [OK]
+06/10/2011 11:22:13 (DEBUG)   - Validate::required(nick@paynedigital.com) [author_email] - [OK]
+06/10/2011 11:22:13 (DEBUG)   - Validate::email(nick@paynedigital.com) [author_email] - [OK]
+06/10/2011 11:22:13 (DEBUG)   - Article::setValues() returning [true] with error count [0]
+06/10/2011 11:22:13 (WARN)    - Handling error of type [CoreException] with message [No Path found for options] and code [11]</pre>
+
+                <p class='alert-message success'><strong>Remember:</strong> <code>tail -f log/debug.log</code> is your friend!</p>
+
+                <p>So - our trusted users can now add articles to our website, but they can't yet see them. Let's tackle that next.</p>
+
+                <h4 id='dynamic-path-parameters'>Dynamic path parameters</h4>
+
+                <p>So, we need to create a path which will handle requests to view an actual article. Unlike those we've
+                looked at thus far, this path is going to have to be able to accept a dynamic parameter - in this case,
+                the ID of the article we wish to view. We do this using a combination of <a href="http://www.regular-expressions.info/">regular expressions</a>
+                and <a href="http://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions#Features">named subpatterns</a>.
+                You don't have to know a massive amount about either - in fact, the routes we've been
+                entering prior to this point have simply been <a href="https://github.com/makeusabrew/jaoss/blob/master/library/path_manager.php#L130">simple regular expressions all along</a>
+                - you just didn't know it. Let's add our new path now:</p>
+
+                <script src="https://gist.github.com/1267112.js"> </script>
+
+                <p>All we're doing is capturing a named sub pattern called <code>id</code> which, if matched, will always be an integer as denoted
+                by <code>\d+</code>. Any sub patterns captured in your paths are available in your controller via the
+                <a href="https://github.com/makeusabrew/jaoss/blob/master/library/controller.php#L89">getMatch</a> method. Let's create our new action
+                and view to render our articles:</p>
+
+                <script src="https://gist.github.com/1267146.js"> </script>
+
+                <p>And voila!</p>
+
+                <img src="/img/view-article.png" alt="" width="620" />
 
             </div>
             
